@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Avant Group | HO Extension Directory</title>
+<style>
+:root{--navy:#142b4a;--blue:#2463eb;--bg:#f3f6fb;--ink:#172338;--muted:#64748b;--line:#e1e8f2;--white:#fff}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 "Segoe UI",Arial,sans-serif}
+header{background:linear-gradient(120deg,#122642,#1e4777);color:white;padding:28px max(20px,calc((100vw - 1180px)/2))}
+.brand{font-size:12px;letter-spacing:2px;text-transform:uppercase;opacity:.8;font-weight:700}
+h1{margin:7px 0 5px;font-size:clamp(25px,4vw,36px)}header p{margin:0;color:#d8e5f6}
+main{max-width:1180px;margin:24px auto;padding:0 18px}
+.panel{background:white;border:1px solid var(--line);border-radius:16px;padding:20px;box-shadow:0 8px 25px #18345b0b}
+.searchline{display:flex;gap:10px;flex-wrap:wrap}.searchbox{flex:1;min-width:240px;position:relative}
+input,select,button{font:inherit;border-radius:10px;border:1px solid #ccd7e5;padding:12px 13px;background:#fff;color:var(--ink)}
+input{width:100%;padding-left:42px}input:focus,select:focus{outline:3px solid #2463eb22;border-color:var(--blue)}
+.search-icon{position:absolute;left:14px;top:10px;font-size:20px;color:var(--muted)}
+select{min-width:190px;max-width:100%}button{cursor:pointer;font-weight:650}button:hover{filter:brightness(.97)}.clear{background:#edf3ff;color:#1747a6;border-color:#d6e3ff}
+.stats{display:flex;gap:10px;flex-wrap:wrap;margin:16px 0 0}.stat{background:#f5f8fd;border:1px solid var(--line);padding:9px 13px;border-radius:10px;color:var(--muted);font-size:13px}.stat strong{color:var(--ink);font-size:16px;margin-right:5px}
+.hint{font-size:13px;color:var(--muted);margin:12px 0 0}
+.results-head{display:flex;justify-content:space-between;gap:12px;align-items:center;margin:23px 2px 10px}.results-head h2{font-size:18px;margin:0}.count{font-size:13px;color:var(--muted)}
+.tablewrap{overflow:auto;border:1px solid var(--line);border-radius:12px;background:white}
+table{border-collapse:collapse;width:100%;min-width:620px}th{background:#f0f4fa;text-align:left;color:#52637b;font-size:12px;text-transform:uppercase;letter-spacing:.6px;padding:13px 16px;position:sticky;top:0}td{padding:13px 16px;border-top:1px solid var(--line);vertical-align:middle}tbody tr:hover{background:#f8fbff}
+.ext{font-weight:800;font-size:17px;color:#164bb8;white-space:nowrap}.person{font-weight:650}.dept{color:#52637b}.tag{display:inline-block;background:#f1f5f9;border:1px solid #e2e8f0;border-radius:7px;padding:3px 7px;font-size:12px;color:#58677c}
+.empty{display:none;text-align:center;padding:35px;color:var(--muted)}footer{max-width:1180px;margin:14px auto 30px;padding:0 18px;color:var(--muted);font-size:12px}
+@media(max-width:650px){main{margin:14px auto;padding:0 10px}.panel{padding:14px}.searchline{display:grid;grid-template-columns:1fr}select{width:100%;min-width:0}header{padding:22px 16px}.results-head{align-items:flex-start;flex-direction:column}}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">Avant Group · Head Office</div>
+  <h1>Intercom Extension Directory</h1>
+  <p>Find an employee, extension number, department, cabin or meeting room instantly.</p>
+</header>
+<main>
+  <section class="panel" aria-label="Directory search">
+    <div class="searchline">
+      <div class="searchbox"><span class="search-icon">⌕</span><input id="search" type="search" placeholder="Search name, extension number, department…" autocomplete="off" autofocus></div>
+      <select id="department" aria-label="Filter by department"><option value="">All departments</option></select>
+      <button class="clear" id="clear" type="button">Clear search</button>
+    </div>
+    <div class="stats">
+      <div class="stat"><strong id="total">0</strong> directory entries</div>
+      <div class="stat"><strong id="departmentsCount">0</strong> departments</div>
+      <div class="stat"><strong id="shown">0</strong> results shown</div>
+    </div>
+    <p class="hint">Tip: search a partial name (e.g., “Mayuresh”), a number (e.g., “141”), or a department (e.g., “CRM”). Names sharing an extension are searchable individually.</p>
+  </section>
+  <div class="results-head"><h2>Directory results</h2><span class="count" id="resultLabel" aria-live="polite"></span></div>
+  <div class="tablewrap">
+    <table>
+      <thead><tr><th>Extension</th><th>Name / Room</th><th>Department</th></tr></thead>
+      <tbody id="rows"></tbody>
+    </table>
+    <div class="empty" id="empty">No matching entries. Try another name, number or department.</div>
+  </div>
+</main>
+<footer>Source: HO Intercom Extension List updated 01 October 2026. Directory data is embedded in this file; no server or internet connection is required to search.</footer>
+<script>
+const directory = [{"extension": "122", "name": "Anosoya/Prachiti", "department": "Accounts & Finance"}, {"extension": "125", "name": "Kinjal Jain", "department": "Accounts & Finance"}, {"extension": "136", "name": "Murli Mishra/Vijay/Premchand", "department": "Accounts & Finance"}, {"extension": "138", "name": "Prashant Rajwadkar/ Sahil", "department": "Accounts & Finance"}, {"extension": "148", "name": "Praveen Dubey/Nilesh Valanju", "department": "Accounts & Finance"}, {"extension": "130", "name": "Shweta Chawan", "department": "Accounts & Finance"}, {"extension": "115", "name": "Vacant Workstation", "department": "Accounts & Finance"}, {"extension": "163", "name": "Vacant Workstation", "department": "Accounts & Finance"}, {"extension": "133", "name": "Yogitaa Saxena", "department": "Accounts & Finance"}, {"extension": "102", "name": "(Reception)", "department": "Admin"}, {"extension": "132", "name": "(Reception)", "department": "Admin"}, {"extension": "103", "name": "(Reception)", "department": "Admin"}, {"extension": "117", "name": "Akash Gupta", "department": "Admin"}, {"extension": "106", "name": "Nilesh Takalikar", "department": "Admin"}, {"extension": "110", "name": "Ram Kule", "department": "Admin"}, {"extension": "150", "name": "Vaibhav Dubey", "department": "AVP"}, {"extension": "159", "name": "Kedar Lad", "department": "BD"}, {"extension": "176", "name": "Krupesh Mehta", "department": "Billing & Estimation"}, {"extension": "167", "name": "Rajan Yadav", "department": "Billing & Estimation"}, {"extension": "178", "name": "Shadab Ashraf/Rovin Singh", "department": "Billing & Estimation"}, {"extension": "177", "name": "Vacant Workstation", "department": "Billing & Estimation"}, {"extension": "131", "name": "Sudeep Saha", "department": "CMD"}, {"extension": "192", "name": "CMD Conference Room", "department": "CMD Cabin"}, {"extension": "166", "name": "Ayaz Ansari/Harsh", "department": "Contracts"}, {"extension": "159", "name": "Mohiuddin Shaikh", "department": "Contracts"}, {"extension": "104", "name": "Udham Jakhar", "department": "COO"}, {"extension": "139", "name": "Anant Pote", "department": "CRM"}, {"extension": "143", "name": "Ashlesha Tiwari/Shraddha Koli", "department": "CRM"}, {"extension": "147", "name": "Jayesh Mane/ Imtiyaz Shaikh", "department": "CRM"}, {"extension": "141", "name": "Chandrashekhar G", "department": "CRM"}, {"extension": "140", "name": "Vacant Workstation", "department": "CRM"}, {"extension": "142", "name": "Vacant Workstation", "department": "CRM"}, {"extension": "144", "name": "Vijaykumar Kadam", "department": "CRM"}, {"extension": "165", "name": "Vimal Jha", "department": "CRM"}, {"extension": "146", "name": "Zeba Mansuri/Nupur Khapare", "department": "CRM"}, {"extension": "129", "name": "Sandesh Mistry", "department": "CS"}, {"extension": "126", "name": "Shweta Rajbhar/Sushila Mandal", "department": "CS"}, {"extension": "175", "name": "Akshay Sharma/Nitin Mhatre", "department": "Design"}, {"extension": "179", "name": "Kamplesh Raut/Lipika", "department": "Design"}, {"extension": "168", "name": "Shrawani Billade/Annu", "department": "Design"}, {"extension": "174", "name": "Siddhant Kamat", "department": "Design"}, {"extension": "123", "name": "Vivek Barve", "department": "Design"}, {"extension": "128", "name": "Nihal/Pratiksha Solankar", "department": "Design & Co-ordination"}, {"extension": "171", "name": "Vishal Bhat/Amey", "department": "Design & Co-ordination"}, {"extension": "194", "name": "Nilam Chauhan", "department": "Documentation"}, {"extension": "113", "name": "Shailesh Dhavade", "department": "Documentation"}, {"extension": "135", "name": "Abhishek Mall", "department": "EA to CMD"}, {"extension": "188", "name": "Atharva Taklikar", "department": "EA to CMD"}, {"extension": "124", "name": "Vacant", "department": "EA to CMD"}, {"extension": "157", "name": "Kranti Dalvi", "department": "HR Head"}, {"extension": "155", "name": "Prerana Talekar/Neha Thool", "department": "HR Team"}, {"extension": "114", "name": "Rino Joseph/Sharon", "department": "HR Team"}, {"extension": "158", "name": "Badruddin Shaikh", "department": "IT"}, {"extension": "111", "name": "Vacant", "department": "IT"}, {"extension": "184", "name": "Shailendra Singh", "department": "Legal"}, {"extension": "173", "name": "Ismail Shaikh/Shireen Khan", "department": "Legal"}, {"extension": "181", "name": "Jinam Shah", "department": "Legal"}, {"extension": "180", "name": "Nagnath Hanchate/Mrinmayee Kastur", "department": "Legal"}, {"extension": "183", "name": "Shamish Marwadi/Sumit Khandare", "department": "Legal"}, {"extension": "172", "name": "Vacant", "department": "Legal"}, {"extension": "182", "name": "Vacant", "department": "Legal"}, {"extension": "160", "name": "Abhay Dudhwadkar", "department": "Liaisoning"}, {"extension": "112", "name": "Amit Chavan/Kamal Ramgavade", "department": "Liaisoning"}, {"extension": "191", "name": "Dilip Palande", "department": "Liaisoning"}, {"extension": "189", "name": "Lalit Pawar/Nikhil/Vishal/Sandesh", "department": "Liaisoning"}, {"extension": "187", "name": "Sachin Khutal", "department": "Liaisoning"}, {"extension": "169", "name": "Santosh Wagh", "department": "Liaisoning"}, {"extension": "186", "name": "Sonali Kandekar", "department": "Liaisoning"}, {"extension": "101", "name": "Vacant", "department": "Liaisoning"}, {"extension": "134", "name": "Vacant", "department": "Liaisoning"}, {"extension": "118", "name": "Aditya Thombare", "department": "Management"}, {"extension": "121", "name": "Amit Mohta", "department": "Management"}, {"extension": "139", "name": "Mayuresh Kathe", "department": "Management"}, {"extension": "149", "name": "Akhilesh Kumar/Shweta Thorse", "department": "Marketing"}, {"extension": "145", "name": "Byomesh Singh", "department": "Marketing"}, {"extension": "162", "name": "Subhasis Chatterjee", "department": "Marketing"}, {"extension": "199", "name": "Meeting Room 1", "department": "Meeting Room"}, {"extension": "154", "name": "Meeting Room 2", "department": "Meeting Room"}, {"extension": "152", "name": "Meeting Room 3", "department": "Meeting Room"}, {"extension": "153", "name": "Meeting Room 4", "department": "Meeting Room"}, {"extension": "164", "name": "Mahantesh Kanthi/Priyanshu Ingole", "department": "MEP/Planining"}, {"extension": "109", "name": "Office Assistant", "department": "Office Assistant"}, {"extension": "190", "name": "Pantry", "department": "Pantry"}, {"extension": "170", "name": "Vacant", "department": "Planning"}, {"extension": "171", "name": "Vacant", "department": "Planning"}, {"extension": "116", "name": "Bharat Lokhande/Yogesh Parab", "department": "Procurement"}, {"extension": "119", "name": "Manoj Pal", "department": "Procurement"}, {"extension": "151", "name": "Rajesh Amdaskar", "department": "Procurement"}, {"extension": "105", "name": "Ravindra Shinde", "department": "Procurement Head"}, {"extension": "161", "name": "Anand Ojha", "department": "Projects"}, {"extension": "120", "name": "Sanket Jadhav/Omkar", "department": "Projects"}, {"extension": "195", "name": "Saurabh Mhatre", "department": "Projects"}, {"extension": "108", "name": "Vacant Cabin", "department": "Projects"}];
+const $ = id => document.getElementById(id);
+const norm = value => String(value ?? "").toLocaleLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").trim();
+const departments = [...new Set(directory.map(r=>r.department).filter(Boolean))].sort((a,b)=>a.localeCompare(b));
+$("total").textContent = directory.length;
+$("departmentsCount").textContent = departments.length;
+departments.forEach(d=>{const o=document.createElement("option");o.value=d;o.textContent=d;$("department").appendChild(o)});
+function render(){
+  const q=norm($("search").value), dep=$("department").value;
+  const filtered=directory.filter(r=>{
+    const hay=norm([r.extension,r.name,r.department,...r.name.split(/[\/,;&]+/)].join(" "));
+    return (!q||hay.includes(q))&&(!dep||r.department===dep);
+  });
+  const tbody=$("rows");tbody.replaceChildren();
+  filtered.forEach(r=>{
+    const tr=document.createElement("tr");
+    const e=document.createElement("td");e.className="ext";e.textContent=r.extension||"—";
+    const n=document.createElement("td");n.className="person";n.textContent=r.name||"—";
+    const d=document.createElement("td");d.className="dept";d.textContent=r.department||"—";
+    tr.append(e,n,d);tbody.appendChild(tr);
+  });
+  $("shown").textContent=filtered.length;
+  $("resultLabel").textContent=`${filtered.length} of ${directory.length} entries`;
+  $("empty").style.display=filtered.length?"none":"block";
+  document.querySelector("table").style.display=filtered.length?"table":"none";
+}
+$("search").addEventListener("input",render);
+$("department").addEventListener("change",render);
+$("clear").addEventListener("click",()=>{$("search").value="";$("department").value="";render();$("search").focus()});
+render();
+</script>
+</body>
+</html>
